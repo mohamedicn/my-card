@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohhamed Ibrahim</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .profile-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .profile-header {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            padding: 30px 20px;
+            color: white;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            margin: 0 auto 15px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #6a11cb;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-title {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .profile-content {
+            padding: 25px;
+        }
+        
+        .profile-bio {
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-icons a:hover {
+            transform: scale(1.2);
+        }
+        
+        .facebook { background-color: #3b5998; }
+        .twitter { background-color: #1da1f2; }
+        .instagram { background-color: #e1306c; }
+        .linkedin { background-color: #0077b5; }
+        .youtube { background-color: #ff0000; }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .contact-btn i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .whatsapp { background-color: #25D366; }
+        .phone { background-color: #2575fc; }
+        .email { background-color: #6a11cb; }
+        
+        @media (max-width: 480px) {
+            .profile-card {
+                max-width: 100%;
+            }
+            
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-img">
+                <img src="icn.jpg" style="height: 100%;width: 100%;border-radius: 50%;">
+            </div>
+            <h1 class="profile-name">Mohamed Ibrahim</h1>
+            <p class="profile-title">Web Developer & Designer</p>
+        </div>
+        
+        <div class="profile-content">
+            <p class="profile-bio">
+                Turning ideas into interactive web experiences.
+                I enjoy crafting clean, efficient code and bringing designs to life.
+            </p>
+            
+            <div class="social-icons">
+                <a href="http://facebook.com/mohamedicn" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/MohamedIbr8341" class="twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/icn.eg/" class="instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            
+            <div class="contact-info">
+                <a href="https://wa.me/+201032431926" class="contact-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                
+                <a href="tel:+201032431926" class="contact-btn phone">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+                
+                <a href="mailto:icnegcompany@gmail.com" class="contact-btn email">
+                    <i class="fas fa-envelope"></i> Email Me
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple animation for page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = 1;
+        });
+        
+        // Smooth appearance on load
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = 0;
+    </script>
+</body>
+</html>
