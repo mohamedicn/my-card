@@ -3,205 +3,645 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohhamed Ibrahim</title>
+    <title>Mohamed Ibrahim - Modern Digital Card</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        :root {
+            /* Color Palette */
+            --bg-dark: #090d16;
+            --primary-accent: #6a11cb;
+            --secondary-accent: #2575fc;
+            --whatsapp-color: #25D366;
+            --whatsapp-glow: rgba(37, 211, 102, 0.4);
+            
+            /* Glassmorphic Tokens */
+            --glass-bg: rgba(18, 24, 38, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-hover: rgba(255, 255, 255, 0.25);
+            --card-glow: rgba(106, 17, 203, 0.25);
+            
+            /* Text Colors */
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --text-subtle: #cbd5e1;
+            
+            /* Transitions */
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background-color: var(--bg-dark);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 24px 16px;
+            overflow-x: hidden;
+            position: relative;
+            color: var(--text-main);
         }
-        
-        .profile-card {
-            background-color: rgba(255, 255, 255, 0.95);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
+
+        /* Dynamic Animated Background & Blobs */
+        .bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            transition: transform 0.3s ease;
+            pointer-events: none;
         }
-        
-        .profile-card:hover {
-            transform: translateY(-10px);
+
+        .gradient-mesh {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(106, 17, 203, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(37, 117, 252, 0.18) 0%, transparent 50%);
         }
-        
-        .profile-header {
-            background: linear-gradient(to right, #2575fc, #6a11cb);
-            padding: 30px 20px;
-            color: white;
-        }
-        
-        .profile-img {
-            width: 120px;
-            height: 120px;
+
+        .blob {
+            position: absolute;
             border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            object-fit: cover;
-            margin: 0 auto 15px;
-            background-color: #f5f5f5;
+            filter: blur(80px);
+            opacity: 0.6;
+            will-change: transform;
+            transition: transform 0.2s ease-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            animation: float 14s infinite alternate ease-in-out;
+        }
+
+        .blob-2 {
+            bottom: -15%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            animation: float 18s infinite alternate-reverse ease-in-out;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #7f00ff, #e100ff);
+            animation: pulse 10s infinite alternate ease-in-out;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 80px) scale(1.1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); }
+            100% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* Glassmorphic Container Card */
+        .profile-card-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 420px;
+            z-index: 1;
+        }
+
+        .profile-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 36px 28px;
+            text-align: center;
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 40px var(--card-glow);
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+            opacity: 0; /* Animated in JS */
+        }
+
+        .profile-card:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.5),
+                0 0 50px rgba(106, 17, 203, 0.35);
+        }
+
+        /* Profile Header & Avatar */
+        .profile-header {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            font-size: 40px;
-            color: #6a11cb;
+            margin-bottom: 24px;
         }
-        
+
+        .avatar-container {
+            position: relative;
+            width: 124px;
+            height: 124px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+        }
+
+        .avatar-container::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent), #00d2ff);
+            z-index: -1;
+            filter: blur(12px);
+            opacity: 0.7;
+            animation: spinGlow 8s linear infinite;
+        }
+
+        @keyframes spinGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: 3px solid var(--bg-dark);
+            transition: var(--transition-smooth);
+        }
+
+        .avatar-container:hover .profile-img {
+            transform: scale(1.04);
+        }
+
+        /* Name & Title Typography */
         .profile-name {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
         }
-        
+
         .profile-title {
-            font-size: 16px;
-            opacity: 0.9;
+            font-size: 15px;
+            font-weight: 500;
+            color: #818cf8;
+            letter-spacing: 0.2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .profile-content {
-            padding: 25px;
+
+        .profile-title::before,
+        .profile-title::after {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #818cf8;
+            opacity: 0.5;
         }
-        
+
+        /* Bio Section */
         .profile-bio {
-            color: #333;
-            margin-bottom: 25px;
+            font-size: 14.5px;
+            color: var(--text-muted);
             line-height: 1.6;
+            margin-bottom: 28px;
+            font-weight: 400;
+            padding: 0 8px;
         }
-        
+
+        /* Social Media Icons Grid */
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 14px;
             margin-bottom: 30px;
         }
-        
-        .social-icons a {
+
+        .social-btn {
+            position: relative;
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-subtle);
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            color: white;
             font-size: 18px;
-            transition: all 0.3s ease;
             text-decoration: none;
+            transition: var(--transition-smooth);
+            overflow: hidden;
+            outline: none;
         }
-        
-        .social-icons a:hover {
-            transform: scale(1.2);
+
+        .social-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -32px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-smooth);
         }
-        
-        .facebook { background-color: #3b5998; }
-        .twitter { background-color: #1da1f2; }
-        .instagram { background-color: #e1306c; }
-        .linkedin { background-color: #0077b5; }
-        .youtube { background-color: #ff0000; }
-        
+
+        .social-btn:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            bottom: -35px;
+        }
+
+        /* Custom Social Glow Colors on Hover */
+        .social-btn.facebook:hover { background: #1877f2; color: #fff; box-shadow: 0 0 20px rgba(24, 119, 242, 0.5); border-color: transparent; }
+        .social-btn.twitter:hover { background: #000000; color: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border-color: rgba(255,255,255,0.4); }
+        .social-btn.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; box-shadow: 0 0 20px rgba(220, 39, 67, 0.5); border-color: transparent; }
+        .social-btn.linkedin:hover { background: #0a66c2; color: #fff; box-shadow: 0 0 20px rgba(10, 102, 194, 0.5); border-color: transparent; }
+
+        .social-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        /* Contact Action Buttons */
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
         }
-        
+
         .contact-btn {
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 12px 20px;
-            border-radius: 50px;
-            color: white;
+            justify-content: space-between;
+            padding: 14px 22px;
+            border-radius: 16px;
+            color: var(--text-main);
+            font-size: 15px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--glass-border);
+            outline: none;
         }
-        
+
+        .contact-btn-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1;
+        }
+
+        .contact-btn i.main-icon {
+            font-size: 19px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .contact-btn i.arrow-icon {
+            font-size: 14px;
+            opacity: 0.5;
+            transition: var(--transition-smooth);
+            z-index: 1;
+        }
+
+        .contact-btn:hover i.arrow-icon {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        /* Distinct Button Styling */
+        .contact-btn.whatsapp {
+            background: rgba(37, 211, 102, 0.1);
+            border-color: rgba(37, 211, 102, 0.25);
+            color: #4ade80;
+        }
+
+        .contact-btn.whatsapp:hover {
+            background: #25D366;
+            color: #052e16;
+            box-shadow: 0 0 25px var(--whatsapp-glow);
+            border-color: transparent;
+        }
+
+        .contact-btn.phone {
+            background: rgba(37, 117, 252, 0.1);
+            border-color: rgba(37, 117, 252, 0.25);
+            color: #60a5fa;
+        }
+
+        .contact-btn.phone:hover {
+            background: #2575fc;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(37, 117, 252, 0.4);
+            border-color: transparent;
+        }
+
+        .contact-btn.email {
+            background: rgba(106, 17, 203, 0.1);
+            border-color: rgba(106, 17, 203, 0.25);
+            color: #c084fc;
+        }
+
+        .contact-btn.email:hover {
+            background: #6a11cb;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(106, 17, 203, 0.4);
+            border-color: transparent;
+        }
+
         .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
         }
-        
-        .contact-btn i {
-            margin-right: 10px;
-            font-size: 18px;
+
+        /* Material Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
         }
-        
-        .whatsapp { background-color: #25D366; }
-        .phone { background-color: #2575fc; }
-        .email { background-color: #6a11cb; }
-        
-        @media (max-width: 480px) {
-            .profile-card {
-                max-width: 100%;
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
             }
-            
-            .profile-img {
-                width: 100px;
-                height: 100px;
+        }
+
+        /* Sequential Entrance Animations Setup */
+        .animate-item {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Accessibility: Focus States */
+        a:focus-visible {
+            outline: 2px solid #818cf8;
+            outline-offset: 3px;
+        }
+
+        /* Accessibility & Reduced Motion Preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .blob, .avatar-container::before {
+                animation: none !important;
+            }
+            .profile-card, .contact-btn, .social-btn, .profile-img, .contact-btn i.arrow-icon {
+                transition: none !important;
+            }
+            .animate-item {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* Responsive Tweaks */
+        @media (max-width: 480px) {
+            body {
+                padding: 16px 12px;
+            }
+            .profile-card {
+                padding: 28px 20px;
+                border-radius: 24px;
+            }
+            .avatar-container {
+                width: 110px;
+                height: 110px;
+            }
+            .profile-name {
+                font-size: 23px;
+            }
+            .social-icons {
+                gap: 10px;
+            }
+            .social-btn {
+                width: 42px;
+                height: 42px;
+                font-size: 16px;
+            }
+            .social-btn::after {
+                display: none; /* Hide hover tooltips on small touch screens */
             }
         }
     </style>
 </head>
 <body>
-    <div class="profile-card">
-        <div class="profile-header">
-            <div class="profile-img">
-                <img src="icn.jpg" style="height: 100%;width: 100%;border-radius: 50%;">
-            </div>
-            <h1 class="profile-name">Mohamed Ibrahim</h1>
-            <p class="profile-title">Web Developer & Designer</p>
-        </div>
-        
-        <div class="profile-content">
-            <p class="profile-bio">
+
+    <!-- Animated Dynamic Background -->
+    <div class="bg-canvas">
+        <div class="gradient-mesh"></div>
+        <div class="blob blob-1" id="blob1"></div>
+        <div class="blob blob-2" id="blob2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Main Glassmorphic Profile Card Container -->
+    <div class="profile-card-wrapper">
+        <main class="profile-card" id="card">
+            
+            <header class="profile-header">
+                <div class="avatar-container animate-item">
+                    <img src="icn.jpg" alt="Mohamed Ibrahim Profile Picture" class="profile-img">
+                </div>
+                <h1 class="profile-name animate-item">Mohamed Ibrahim</h1>
+                <p class="profile-title animate-item">Web Developer &amp; Designer</p>
+            </header>
+            
+            <p class="profile-bio animate-item">
                 Turning ideas into interactive web experiences.
                 I enjoy crafting clean, efficient code and bringing designs to life.
             </p>
             
-            <div class="social-icons">
-                <a href="http://facebook.com/mohamedicn" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://x.com/MohamedIbr8341" class="twitter"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.instagram.com/icn.eg/" class="instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
-            </div>
+            <!-- Social Media Links -->
+            <nav class="social-icons" aria-label="Social Profiles">
+                <a href="http://facebook.com/mohamedicn" class="social-btn facebook animate-item" aria-label="Facebook Profile" data-tooltip="Facebook" target="_blank" rel="noopener">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://x.com/MohamedIbr8341" class="social-btn twitter animate-item" aria-label="X Profile" data-tooltip="X / Twitter" target="_blank" rel="noopener">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="https://www.instagram.com/icn.eg/" class="social-btn instagram animate-item" aria-label="Instagram Profile" data-tooltip="Instagram" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" class="social-btn linkedin animate-item" aria-label="LinkedIn Profile" data-tooltip="LinkedIn" target="_blank" rel="noopener">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </nav>
             
+            <!-- Direct Action Buttons -->
             <div class="contact-info">
-                <a href="https://wa.me/+201032431926" class="contact-btn whatsapp">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
+                <a href="https://wa.me/+201032431926" class="contact-btn whatsapp animate-item" target="_blank" rel="noopener">
+                    <div class="contact-btn-content">
+                        <i class="fab fa-whatsapp main-icon"></i>
+                        <span>WhatsApp</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 
-                <a href="tel:+201032431926" class="contact-btn phone">
-                    <i class="fas fa-phone"></i> Call Now
+                <a href="tel:+201032431926" class="contact-btn phone animate-item">
+                    <div class="contact-btn-content">
+                        <i class="fas fa-phone main-icon"></i>
+                        <span>Call Now</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 
-                <a href="mailto:icnegcompany@gmail.com" class="contact-btn email">
-                    <i class="fas fa-envelope"></i> Email Me
+                <a href="mailto:icnegcompany@gmail.com" class="contact-btn email animate-item">
+                    <div class="contact-btn-content">
+                        <i class="fas fa-envelope main-icon"></i>
+                        <span>Email Me</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
             </div>
-        </div>
+
+        </main>
     </div>
 
+    <!-- Vanilla JavaScript for Orchestrating Animations & Interactions -->
     <script>
-        // Simple animation for page load
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.style.opacity = 1;
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.getElementById('card');
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
+            const animatableItems = document.querySelectorAll('.animate-item');
+            
+            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            /* 1. Controlled Page Load Sequence */
+            setTimeout(() => {
+                card.style.opacity = '1';
+                if (!prefersReducedMotion) {
+                    animatableItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('is-visible');
+                        }, index * 80); // Staggered delays
+                    });
+                } else {
+                    animatableItems.forEach(item => item.classList.add('is-visible'));
+                }
+            }, 100);
+
+            /* 2. Desktop Mouse Tilt & Parallax Effects */
+            if (!isTouchDevice && !prefersReducedMotion) {
+                let animationFrameId = null;
+
+                document.addEventListener('mousemove', (e) => {
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+                    animationFrameId = requestAnimationFrame(() => {
+                        const { innerWidth, innerHeight } = window;
+                        const mouseX = e.clientX;
+                        const mouseY = e.clientY;
+
+                        // Subtle tilt calculation for Card
+                        const centerX = innerWidth / 2;
+                        const centerY = innerHeight / 2;
+                        const tiltX = (mouseY - centerY) / (innerHeight / 2) * -6; // Max 6deg
+                        const tiltY = (mouseX - centerX) / (innerWidth / 2) * 6;
+
+                        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+
+                        // Parallax effect for Background Blobs
+                        const moveX = (mouseX - centerX) * 0.02;
+                        const moveY = (mouseY - centerY) * 0.02;
+                        blob1.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                        blob2.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
+                    });
+                });
+
+                // Reset card orientation on mouse exit
+                document.addEventListener('mouseleave', () => {
+                    card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                    blob1.style.transform = 'translate(0px, 0px)';
+                    blob2.style.transform = 'translate(0px, 0px)';
+                });
+            }
+
+            /* 3. Ripple Effect for Buttons */
+            const clickableElements = document.querySelectorAll('.contact-btn, .social-btn');
+            
+            clickableElements.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    const circle = document.createElement('span');
+                    const diameter = Math.max(this.clientWidth, this.clientHeight);
+                    const radius = diameter / 2;
+
+                    const rect = this.getBoundingClientRect();
+                    circle.style.width = circle.style.height = `${diameter}px`;
+                    circle.style.left = `${e.clientX - rect.left - radius}px`;
+                    circle.style.top = `${e.clientY - rect.top - radius}px`;
+                    circle.classList.add('ripple');
+
+                    const existingRipple = this.querySelector('.ripple');
+                    if (existingRipple) {
+                        existingRipple.remove();
+                    }
+
+                    this.appendChild(circle);
+                });
+            });
         });
-        
-        // Smooth appearance on load
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = 0;
     </script>
 </body>
 </html>
