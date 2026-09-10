@@ -1,37 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohamed Ibrahim - Modern Digital Card</title>
+    <title>Mohamed Ibrahim - Modern Digital Profile</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Plus Jakarta Sans for EN & Tajawal for AR -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Color Palette */
-            --bg-dark: #090d16;
-            --primary-accent: #6a11cb;
-            --secondary-accent: #2575fc;
-            --whatsapp-color: #25D366;
-            --whatsapp-glow: rgba(37, 211, 102, 0.4);
+            /* Primary Colors */
+            --bg-dark: #07090e;
+            --card-bg: rgba(15, 21, 37, 0.65);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --border-glass-hover: rgba(255, 255, 255, 0.22);
             
-            /* Glassmorphic Tokens */
-            --glass-bg: rgba(18, 24, 38, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --glass-border-hover: rgba(255, 255, 255, 0.25);
-            --card-glow: rgba(106, 17, 203, 0.25);
+            /* Glow Accents */
+            --accent-purple: #7c3aed;
+            --accent-blue: #2563eb;
+            --accent-cyan: #06b6d4;
+            --accent-glow: rgba(124, 58, 237, 0.25);
             
             /* Text Colors */
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --text-subtle: #cbd5e1;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --text-arabic: #cbd5e1;
             
             /* Transitions */
             --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -41,7 +40,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -55,9 +53,10 @@
             overflow-x: hidden;
             position: relative;
             color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif;
         }
 
-        /* Dynamic Animated Background & Blobs */
+        /* Ambient Dynamic Background */
         .bg-canvas {
             position: fixed;
             top: 0;
@@ -74,182 +73,289 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 0% 0%, rgba(106, 17, 203, 0.18) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(37, 117, 252, 0.18) 0%, transparent 50%);
+                radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 60%);
         }
 
+        /* Floating Light Blobs */
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
+            filter: blur(90px);
+            opacity: 0.5;
             will-change: transform;
-            transition: transform 0.2s ease-out;
         }
 
         .blob-1 {
             top: -10%;
-            left: -10%;
-            width: 450px;
-            height: 450px;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            animation: float 14s infinite alternate ease-in-out;
+            right: -10%;
+            width: 420px;
+            height: 420px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            animation: floatBlob1 16s infinite alternate ease-in-out;
         }
 
         .blob-2 {
-            bottom: -15%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
-            animation: float 18s infinite alternate-reverse ease-in-out;
+            bottom: -10%;
+            left: -10%;
+            width: 460px;
+            height: 460px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            animation: floatBlob2 20s infinite alternate ease-in-out;
         }
 
-        .blob-3 {
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 350px;
-            height: 350px;
-            background: linear-gradient(135deg, #7f00ff, #e100ff);
-            animation: pulse 10s infinite alternate ease-in-out;
-            opacity: 0.3;
-        }
-
-        @keyframes float {
+        @keyframes floatBlob1 {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(60px, 80px) scale(1.1); }
+            100% { transform: translate(-80px, 60px) scale(1.1); }
         }
 
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.8); }
-            100% { transform: translate(-50%, -50%) scale(1.15); }
+        @keyframes floatBlob2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(70px, -80px) scale(1.15); }
         }
 
-        /* Glassmorphic Container Card */
-        .profile-card-wrapper {
+        /* Desktop Interactive Light Follower */
+        .mouse-cursor-glow {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+            will-change: transform;
+        }
+
+        /* Main Container Card */
+        .card-wrapper {
             perspective: 1000px;
             width: 100%;
-            max-width: 420px;
-            z-index: 1;
+            max-width: 440px;
+            z-index: 2;
         }
 
-        .profile-card {
-            background: var(--glass-bg);
+        .glass-card {
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--border-glass);
             border-radius: 28px;
-            padding: 36px 28px;
+            padding: 38px 28px;
             text-align: center;
             box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.4),
-                0 0 40px var(--card-glow);
-            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 0 40px var(--accent-glow);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
             transform-style: preserve-3d;
             will-change: transform;
-            opacity: 0; /* Animated in JS */
+            
+            /* Initial Entry State */
+            opacity: 0;
+            transform: translateY(30px) scale(0.92);
         }
 
-        .profile-card:hover {
-            border-color: var(--glass-border-hover);
+        .glass-card.card-loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .glass-card:hover {
+            border-color: var(--border-glass-hover);
             box-shadow: 
-                0 35px 70px rgba(0, 0, 0, 0.5),
-                0 0 50px rgba(106, 17, 203, 0.35);
+                0 35px 70px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.25),
+                0 0 50px rgba(124, 58, 237, 0.35);
         }
 
-        /* Profile Header & Avatar */
-        .profile-header {
+        /* Profile Image Setup */
+        .avatar-section {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 24px;
+            justify-content: center;
+            margin-bottom: 22px;
+            opacity: 0;
+            transform: scale(0.7);
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .avatar-container {
+        .avatar-section.is-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .avatar-ring-container {
             position: relative;
-            width: 124px;
-            height: 124px;
-            margin-bottom: 20px;
+            width: 126px;
+            height: 126px;
             border-radius: 50%;
             padding: 4px;
-            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            animation: floatingImage 6s ease-in-out infinite;
         }
 
-        .avatar-container::before {
+        @keyframes floatingImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Rotating Gradient Ring */
+        .avatar-ring-container::before {
             content: '';
             position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent), #00d2ff);
-            z-index: -1;
-            filter: blur(12px);
-            opacity: 0.7;
-            animation: spinGlow 8s linear infinite;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan), var(--accent-blue));
+            z-index: 0;
+            filter: blur(8px);
+            opacity: 0.8;
+            animation: rotateRing 8s linear infinite;
         }
 
-        @keyframes spinGlow {
+        @keyframes rotateRing {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .img-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 1;
+            background: var(--bg-dark);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         .profile-img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
             display: block;
-            border: 3px solid var(--bg-dark);
-            transition: var(--transition-smooth);
+            transition: transform 0.5s ease;
+            image-rendering: -webkit-optimize-contrast;
         }
 
-        .avatar-container:hover .profile-img {
-            transform: scale(1.04);
+        .avatar-ring-container:hover .profile-img {
+            transform: scale(1.06);
+        }
+
+        /* Light Sweep Effect over Profile Picture */
+        .img-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-25deg);
+            animation: lightSweep 9s infinite ease-in-out;
+        }
+
+        @keyframes lightSweep {
+            0%, 70%, 100% { left: -100%; }
+            85% { left: 160%; }
         }
 
         /* Name & Title Typography */
         .profile-name {
             font-size: 26px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+            background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
+            min-height: 38px;
+            direction: ltr;
+            display: inline-block;
         }
 
         .profile-title {
             font-size: 15px;
-            font-weight: 500;
-            color: #818cf8;
-            letter-spacing: 0.2px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            letter-spacing: 0.3px;
+            min-height: 24px;
+            direction: ltr;
+            margin-bottom: 22px;
         }
 
-        .profile-title::before,
-        .profile-title::after {
-            content: '';
+        /* Cursor Element for Typewriter */
+        .typing-cursor {
             display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: #818cf8;
-            opacity: 0.5;
+            width: 2px;
+            height: 1em;
+            background-color: var(--accent-cyan);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blinkCursor 0.8s infinite;
         }
 
-        /* Bio Section */
-        .profile-bio {
-            font-size: 14.5px;
-            color: var(--text-muted);
+        .typing-cursor.is-hidden {
+            display: none;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Arabic Bio Rotating Carousel */
+        .bio-container {
+            position: relative;
+            min-height: 54px;
+            margin-bottom: 26px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            direction: rtl;
+        }
+
+        .bio-container.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bio-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-arabic);
             line-height: 1.6;
-            margin-bottom: 28px;
-            font-weight: 400;
-            padding: 0 8px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            filter: blur(4px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+            pointer-events: none;
+        }
+
+        .bio-text.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .bio-text.exit {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.98);
+            filter: blur(4px);
         }
 
         /* Social Media Icons Grid */
@@ -258,16 +364,17 @@
             justify-content: center;
             gap: 14px;
             margin-bottom: 30px;
+            direction: ltr;
         }
 
         .social-btn {
             position: relative;
-            width: 46px;
-            height: 46px;
+            width: 48px;
+            height: 48px;
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-subtle);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            color: var(--text-sub);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -275,17 +382,24 @@
             text-decoration: none;
             transition: var(--transition-smooth);
             overflow: hidden;
-            outline: none;
+            opacity: 0;
+            transform: translateY(15px);
         }
 
+        .social-btn.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tooltip */
         .social-btn::after {
             content: attr(data-tooltip);
             position: absolute;
             bottom: -32px;
             left: 50%;
             transform: translateX(-50%) scale(0.8);
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid var(--glass-border);
+            background: rgba(7, 9, 14, 0.95);
+            border: 1px solid var(--border-glass);
             color: #fff;
             font-size: 11px;
             padding: 3px 8px;
@@ -299,17 +413,25 @@
         .social-btn:hover::after {
             opacity: 1;
             transform: translateX(-50%) scale(1);
-            bottom: -35px;
+            bottom: -36px;
         }
 
-        /* Custom Social Glow Colors on Hover */
+        /* Individual Social Hover Styles */
         .social-btn.facebook:hover { background: #1877f2; color: #fff; box-shadow: 0 0 20px rgba(24, 119, 242, 0.5); border-color: transparent; }
         .social-btn.twitter:hover { background: #000000; color: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border-color: rgba(255,255,255,0.4); }
         .social-btn.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; box-shadow: 0 0 20px rgba(220, 39, 67, 0.5); border-color: transparent; }
         .social-btn.linkedin:hover { background: #0a66c2; color: #fff; box-shadow: 0 0 20px rgba(10, 102, 194, 0.5); border-color: transparent; }
 
         .social-btn:hover {
-            transform: translateY(-4px) scale(1.05);
+            transform: translateY(-4px) scale(1.08);
+        }
+
+        .social-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover i {
+            transform: rotate(8deg);
         }
 
         /* Contact Action Buttons */
@@ -317,6 +439,7 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
+            direction: ltr;
         }
 
         .contact-btn {
@@ -324,7 +447,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 22px;
+            padding: 15px 22px;
             border-radius: 16px;
             color: var(--text-main);
             font-size: 15px;
@@ -332,11 +455,17 @@
             text-decoration: none;
             overflow: hidden;
             transition: var(--transition-smooth);
-            border: 1px solid var(--glass-border);
-            outline: none;
+            border: 1px solid var(--border-glass);
+            opacity: 0;
+            transform: translateY(15px);
         }
 
-        .contact-btn-content {
+        .contact-btn.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-left {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -344,13 +473,13 @@
         }
 
         .contact-btn i.main-icon {
-            font-size: 19px;
+            font-size: 20px;
             width: 24px;
             text-align: center;
         }
 
         .contact-btn i.arrow-icon {
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.5;
             transition: var(--transition-smooth);
             z-index: 1;
@@ -363,46 +492,46 @@
 
         /* Distinct Button Styling */
         .contact-btn.whatsapp {
-            background: rgba(37, 211, 102, 0.1);
-            border-color: rgba(37, 211, 102, 0.25);
+            background: rgba(37, 211, 102, 0.08);
+            border-color: rgba(37, 211, 102, 0.2);
             color: #4ade80;
         }
 
         .contact-btn.whatsapp:hover {
             background: #25D366;
             color: #052e16;
-            box-shadow: 0 0 25px var(--whatsapp-glow);
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.4);
             border-color: transparent;
         }
 
         .contact-btn.phone {
-            background: rgba(37, 117, 252, 0.1);
-            border-color: rgba(37, 117, 252, 0.25);
+            background: rgba(37, 99, 235, 0.08);
+            border-color: rgba(37, 99, 235, 0.2);
             color: #60a5fa;
         }
 
         .contact-btn.phone:hover {
-            background: #2575fc;
+            background: var(--accent-blue);
             color: #ffffff;
-            box-shadow: 0 0 25px rgba(37, 117, 252, 0.4);
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.4);
             border-color: transparent;
         }
 
         .contact-btn.email {
-            background: rgba(106, 17, 203, 0.1);
-            border-color: rgba(106, 17, 203, 0.25);
+            background: rgba(124, 58, 237, 0.08);
+            border-color: rgba(124, 58, 237, 0.2);
             color: #c084fc;
         }
 
         .contact-btn.email:hover {
-            background: #6a11cb;
+            background: var(--accent-purple);
             color: #ffffff;
-            box-shadow: 0 0 25px rgba(106, 17, 203, 0.4);
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
             border-color: transparent;
         }
 
         .contact-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
         /* Material Ripple Effect */
@@ -411,142 +540,149 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.35);
             transform: scale(0);
-            animation: ripple-animation 0.6s linear;
+            animation: rippleAnim 0.6s linear;
             pointer-events: none;
         }
 
-        @keyframes ripple-animation {
+        @keyframes rippleAnim {
             to {
                 transform: scale(4);
                 opacity: 0;
             }
         }
 
-        /* Sequential Entrance Animations Setup */
-        .animate-item {
-            opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .animate-item.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Accessibility: Focus States */
-        a:focus-visible {
-            outline: 2px solid #818cf8;
-            outline-offset: 3px;
-        }
-
-        /* Accessibility & Reduced Motion Preferences */
+        /* Accessibility: Reduce Motion Support */
         @media (prefers-reduced-motion: reduce) {
-            .blob, .avatar-container::before {
+            .blob, .avatar-ring-container, .img-box::after {
                 animation: none !important;
             }
-            .profile-card, .contact-btn, .social-btn, .profile-img, .contact-btn i.arrow-icon {
+            .glass-card, .contact-btn, .social-btn, .profile-img, .bio-text {
                 transition: none !important;
             }
-            .animate-item {
+            .glass-card, .avatar-section, .bio-container, .social-btn, .contact-btn {
                 opacity: 1 !important;
                 transform: none !important;
             }
+            .typing-cursor {
+                display: none !important;
+            }
         }
 
-        /* Responsive Tweaks */
+        /* Mobile Tweaks */
         @media (max-width: 480px) {
             body {
                 padding: 16px 12px;
             }
-            .profile-card {
-                padding: 28px 20px;
+            .glass-card {
+                padding: 30px 20px;
                 border-radius: 24px;
             }
-            .avatar-container {
-                width: 110px;
-                height: 110px;
+            .avatar-ring-container {
+                width: 112px;
+                height: 112px;
             }
             .profile-name {
                 font-size: 23px;
+                min-height: 34px;
+            }
+            .profile-title {
+                font-size: 14px;
             }
             .social-icons {
                 gap: 10px;
             }
             .social-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 font-size: 16px;
             }
             .social-btn::after {
-                display: none; /* Hide hover tooltips on small touch screens */
+                display: none;
+            }
+            .mouse-cursor-glow {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Animated Dynamic Background -->
+    <!-- Ambient Dynamic Background -->
     <div class="bg-canvas">
         <div class="gradient-mesh"></div>
         <div class="blob blob-1" id="blob1"></div>
         <div class="blob blob-2" id="blob2"></div>
-        <div class="blob blob-3"></div>
     </div>
 
-    <!-- Main Glassmorphic Profile Card Container -->
-    <div class="profile-card-wrapper">
-        <main class="profile-card" id="card">
+    <!-- Desktop Mouse Light Glow -->
+    <div class="mouse-cursor-glow" id="mouseGlow"></div>
+
+    <!-- Main Card Container -->
+    <div class="card-wrapper">
+        <main class="glass-card" id="card">
             
-            <header class="profile-header">
-                <div class="avatar-container animate-item">
-                    <img src="icn.jpg" alt="Mohamed Ibrahim Profile Picture" class="profile-img">
+            <!-- Profile Avatar Section -->
+            <div class="avatar-section" id="avatarSec">
+                <div class="avatar-ring-container">
+                    <div class="img-box">
+                        <img src="icn.jpg" alt="Mohamed Ibrahim" class="profile-img">
+                    </div>
                 </div>
-                <h1 class="profile-name animate-item">Mohamed Ibrahim</h1>
-                <p class="profile-title animate-item">Web Developer &amp; Designer</p>
-            </header>
-            
-            <p class="profile-bio animate-item">
-                Turning ideas into interactive web experiences.
-                I enjoy crafting clean, efficient code and bringing designs to life.
-            </p>
-            
-            <!-- Social Media Links -->
+            </div>
+
+            <!-- Name with Single Typewriter Animation -->
+            <h1 class="profile-name">
+                <span id="nameText"></span><span class="typing-cursor" id="nameCursor"></span>
+            </h1>
+
+            <!-- Title with Single Typewriter Animation -->
+            <div class="profile-title">
+                <span id="titleText"></span><span class="typing-cursor is-hidden" id="titleCursor"></span>
+            </div>
+
+            <!-- Arabic Bio Carousel (Fade/Slide/Blur) -->
+            <div class="bio-container" id="bioSec">
+                <p class="bio-text active">أحوّل الأفكار إلى تجارب ويب تفاعلية ومميزة.</p>
+                <p class="bio-text">أهتم ببناء واجهات عصرية، سريعة وسهلة الاستخدام.</p>
+                <p class="bio-text">أحب كتابة كود نظيف وتحويل الأفكار إلى منتجات حقيقية.</p>
+            </div>
+
+            <!-- Social Links -->
             <nav class="social-icons" aria-label="Social Profiles">
-                <a href="http://facebook.com/mohamedicn" class="social-btn facebook animate-item" aria-label="Facebook Profile" data-tooltip="Facebook" target="_blank" rel="noopener">
+                <a href="http://facebook.com/mohamedicn" class="social-btn facebook" aria-label="Facebook Profile" data-tooltip="Facebook" target="_blank" rel="noopener">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://x.com/MohamedIbr8341" class="social-btn twitter animate-item" aria-label="X Profile" data-tooltip="X / Twitter" target="_blank" rel="noopener">
+                <a href="https://x.com/MohamedIbr8341" class="social-btn twitter" aria-label="X Profile" data-tooltip="X / Twitter" target="_blank" rel="noopener">
                     <i class="fab fa-x-twitter"></i>
                 </a>
-                <a href="https://www.instagram.com/icn.eg/" class="social-btn instagram animate-item" aria-label="Instagram Profile" data-tooltip="Instagram" target="_blank" rel="noopener">
+                <a href="https://www.instagram.com/icn.eg/" class="social-btn instagram" aria-label="Instagram Profile" data-tooltip="Instagram" target="_blank" rel="noopener">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" class="social-btn linkedin animate-item" aria-label="LinkedIn Profile" data-tooltip="LinkedIn" target="_blank" rel="noopener">
+                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" class="social-btn linkedin" aria-label="LinkedIn Profile" data-tooltip="LinkedIn" target="_blank" rel="noopener">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
             </nav>
-            
-            <!-- Direct Action Buttons -->
+
+            <!-- Direct Contact Actions -->
             <div class="contact-info">
-                <a href="https://wa.me/+201032431926" class="contact-btn whatsapp animate-item" target="_blank" rel="noopener">
-                    <div class="contact-btn-content">
+                <a href="https://wa.me/+201032431926" class="contact-btn whatsapp" target="_blank" rel="noopener">
+                    <div class="btn-left">
                         <i class="fab fa-whatsapp main-icon"></i>
                         <span>WhatsApp</span>
                     </div>
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 
-                <a href="tel:+201032431926" class="contact-btn phone animate-item">
-                    <div class="contact-btn-content">
+                <a href="tel:+201032431926" class="contact-btn phone">
+                    <div class="btn-left">
                         <i class="fas fa-phone main-icon"></i>
                         <span>Call Now</span>
                     </div>
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 
-                <a href="mailto:icnegcompany@gmail.com" class="contact-btn email animate-item">
-                    <div class="contact-btn-content">
+                <a href="mailto:icnegcompany@gmail.com" class="contact-btn email">
+                    <div class="btn-left">
                         <i class="fas fa-envelope main-icon"></i>
                         <span>Email Me</span>
                     </div>
@@ -557,90 +693,187 @@
         </main>
     </div>
 
-    <!-- Vanilla JavaScript for Orchestrating Animations & Interactions -->
+    <!-- Vanilla JavaScript for Orchestrations -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const card = document.getElementById('card');
-            const blob1 = document.getElementById('blob1');
-            const blob2 = document.getElementById('blob2');
-            const animatableItems = document.querySelectorAll('.animate-item');
-            
             const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            /* 1. Controlled Page Load Sequence */
-            setTimeout(() => {
-                card.style.opacity = '1';
-                if (!prefersReducedMotion) {
-                    animatableItems.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.classList.add('is-visible');
-                        }, index * 80); // Staggered delays
-                    });
-                } else {
-                    animatableItems.forEach(item => item.classList.add('is-visible'));
-                }
-            }, 100);
+            // Target Elements
+            const card = document.getElementById('card');
+            const avatarSec = document.getElementById('avatarSec');
+            const nameTextEl = document.getElementById('nameText');
+            const nameCursorEl = document.getElementById('nameCursor');
+            const titleTextEl = document.getElementById('titleText');
+            const titleCursorEl = document.getElementById('titleCursor');
+            const bioSec = document.getElementById('bioSec');
+            const socialBtns = document.querySelectorAll('.social-btn');
+            const contactBtns = document.querySelectorAll('.contact-btn');
+            const mouseGlow = document.getElementById('mouseGlow');
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
 
-            /* 2. Desktop Mouse Tilt & Parallax Effects */
+            // Data Strings
+            const fullName = "Mohamed Ibrahim";
+            const fullTitle = "Web Developer & Designer";
+
+            /* -------------------------------------------------------------
+               1. Master Orchestrated Entrance Sequence
+            ------------------------------------------------------------- */
+            function runEntranceSequence() {
+                // Step 1: Card Appearance
+                setTimeout(() => {
+                    card.classList.add('card-loaded');
+                }, 100);
+
+                // Step 2: Avatar Reveal
+                setTimeout(() => {
+                    avatarSec.classList.add('is-visible');
+                }, 400);
+
+                // Step 3: Name Typewriter (Executes ONCE)
+                setTimeout(() => {
+                    typeWriter(fullName, nameTextEl, 70, () => {
+                        // After Name completes, hide name cursor smooth
+                        nameCursorEl.classList.add('is-hidden');
+                        
+                        // Step 4: Title Typewriter
+                        titleCursorEl.classList.remove('is-hidden');
+                        typeWriter(fullTitle, titleTextEl, 55, () => {
+                            titleCursorEl.classList.add('is-hidden');
+
+                            // Step 5: Bio Reveal & Carousel Start
+                            bioSec.classList.add('is-visible');
+                            initBioCarousel();
+
+                            // Step 6: Sequenced Social Icons Appearance
+                            socialBtns.forEach((btn, index) => {
+                                setTimeout(() => {
+                                    btn.classList.add('is-visible');
+                                }, index * 80);
+                            });
+
+                            // Step 7: Sequenced Contact Buttons Appearance
+                            const socialTotalTime = socialBtns.length * 80;
+                            contactBtns.forEach((btn, index) => {
+                                setTimeout(() => {
+                                    btn.classList.add('is-visible');
+                                }, socialTotalTime + (index * 100));
+                            });
+                        });
+                    });
+                }, 700);
+            }
+
+            /* Helper: Vanilla Typewriter Effect */
+            function typeWriter(text, element, speed, onComplete) {
+                if (prefersReducedMotion) {
+                    element.textContent = text;
+                    if (onComplete) onComplete();
+                    return;
+                }
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else if (onComplete) {
+                        onComplete();
+                    }
+                }
+                type();
+            }
+
+            /* -------------------------------------------------------------
+               2. Arabic Bio Text Rotating Carousel
+            ------------------------------------------------------------- */
+            function initBioCarousel() {
+                const bioTexts = document.querySelectorAll('.bio-text');
+                let currentIndex = 0;
+
+                setInterval(() => {
+                    const currentEl = bioTexts[currentIndex];
+                    currentIndex = (currentIndex + 1) % bioTexts.length;
+                    const nextEl = bioTexts[currentIndex];
+
+                    currentEl.classList.remove('active');
+                    currentEl.classList.add('exit');
+
+                    setTimeout(() => {
+                        currentEl.classList.remove('exit');
+                        nextEl.classList.add('active');
+                    }, 600); // Sync with CSS transition
+                }, 4000); // Rotates every 4 seconds
+            }
+
+            /* -------------------------------------------------------------
+               3. Mouse Tilt & Pointer Light Follower (Desktop Only)
+            ------------------------------------------------------------- */
             if (!isTouchDevice && !prefersReducedMotion) {
-                let animationFrameId = null;
+                let rafId = null;
 
                 document.addEventListener('mousemove', (e) => {
-                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                    if (rafId) cancelAnimationFrame(rafId);
 
-                    animationFrameId = requestAnimationFrame(() => {
-                        const { innerWidth, innerHeight } = window;
-                        const mouseX = e.clientX;
-                        const mouseY = e.clientY;
+                    rafId = requestAnimationFrame(() => {
+                        const { clientX: x, clientY: y } = e;
+                        const { innerWidth: w, innerHeight: h } = window;
 
-                        // Subtle tilt calculation for Card
-                        const centerX = innerWidth / 2;
-                        const centerY = innerHeight / 2;
-                        const tiltX = (mouseY - centerY) / (innerHeight / 2) * -6; // Max 6deg
-                        const tiltY = (mouseX - centerX) / (innerWidth / 2) * 6;
+                        // Mouse Light Follower
+                        mouseGlow.style.opacity = '1';
+                        mouseGlow.style.left = `${x}px`;
+                        mouseGlow.style.top = `${y}px`;
+
+                        // Subtle 3D Tilt for Card (Max 3.5 degrees)
+                        const centerX = w / 2;
+                        const centerY = h / 2;
+                        const tiltX = (y - centerY) / (h / 2) * -3.5;
+                        const tiltY = (x - centerX) / (w / 2) * 3.5;
 
                         card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
 
-                        // Parallax effect for Background Blobs
-                        const moveX = (mouseX - centerX) * 0.02;
-                        const moveY = (mouseY - centerY) * 0.02;
+                        // Parallax for Background Blobs
+                        const moveX = (x - centerX) * 0.015;
+                        const moveY = (y - centerY) * 0.015;
                         blob1.style.transform = `translate(${moveX}px, ${moveY}px)`;
                         blob2.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
                     });
                 });
 
-                // Reset card orientation on mouse exit
                 document.addEventListener('mouseleave', () => {
+                    mouseGlow.style.opacity = '0';
                     card.style.transform = 'rotateX(0deg) rotateY(0deg)';
                     blob1.style.transform = 'translate(0px, 0px)';
                     blob2.style.transform = 'translate(0px, 0px)';
                 });
             }
 
-            /* 3. Ripple Effect for Buttons */
-            const clickableElements = document.querySelectorAll('.contact-btn, .social-btn');
-            
-            clickableElements.forEach(button => {
-                button.addEventListener('click', function (e) {
+            /* -------------------------------------------------------------
+               4. Button Ripple Click Micro-interaction
+            ------------------------------------------------------------- */
+            const rippleTargets = document.querySelectorAll('.contact-btn, .social-btn');
+            rippleTargets.forEach(btn => {
+                btn.addEventListener('click', function(e) {
                     const circle = document.createElement('span');
                     const diameter = Math.max(this.clientWidth, this.clientHeight);
                     const radius = diameter / 2;
-
                     const rect = this.getBoundingClientRect();
+
                     circle.style.width = circle.style.height = `${diameter}px`;
                     circle.style.left = `${e.clientX - rect.left - radius}px`;
                     circle.style.top = `${e.clientY - rect.top - radius}px`;
                     circle.classList.add('ripple');
 
                     const existingRipple = this.querySelector('.ripple');
-                    if (existingRipple) {
-                        existingRipple.remove();
-                    }
+                    if (existingRipple) existingRipple.remove();
 
                     this.appendChild(circle);
                 });
             });
+
+            // Start Execution
+            runEntranceSequence();
         });
     </script>
 </body>
