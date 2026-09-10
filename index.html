@@ -3,877 +3,664 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohamed Ibrahim - Modern Digital Profile</title>
-    
-    <!-- Google Fonts: Plus Jakarta Sans for EN & Tajawal for AR -->
+    <title>Mohamed Ibrahim - Profile Card</title>
+
+    <!-- Font Awesome Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Primary Colors */
-            --bg-dark: #07090e;
-            --card-bg: rgba(15, 21, 37, 0.65);
-            --border-glass: rgba(255, 255, 255, 0.1);
-            --border-glass-hover: rgba(255, 255, 255, 0.22);
-            
-            /* Glow Accents */
-            --accent-purple: #7c3aed;
-            --accent-blue: #2563eb;
-            --accent-cyan: #06b6d4;
-            --accent-glow: rgba(124, 58, 237, 0.25);
-            
-            /* Text Colors */
+            --bg-color: #0d0f17;
+            --card-bg: rgba(22, 27, 38, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.35);
             --text-main: #f8fafc;
-            --text-sub: #94a3b8;
-            --text-arabic: #cbd5e1;
-            
-            /* Transitions */
-            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --vf-cash: #e11d48;
+            --instapay: #8b5cf6;
+            --bank-color: #3b82f6;
+            --radius-lg: 24px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: 'Cairo', 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 24px 16px;
-            overflow-x: hidden;
-            position: relative;
+            padding: 20px 12px;
             color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', 'Tajawal', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Ambient Dynamic Background */
-        .bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .gradient-mesh {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 60%);
-        }
-
-        /* Floating Light Blobs */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            opacity: 0.5;
-            will-change: transform;
-        }
-
-        .blob-1 {
-            top: -10%;
-            right: -10%;
-            width: 420px;
-            height: 420px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            animation: floatBlob1 16s infinite alternate ease-in-out;
-        }
-
-        .blob-2 {
-            bottom: -10%;
-            left: -10%;
-            width: 460px;
-            height: 460px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            animation: floatBlob2 20s infinite alternate ease-in-out;
-        }
-
-        @keyframes floatBlob1 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-80px, 60px) scale(1.1); }
-        }
-
-        @keyframes floatBlob2 {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(70px, -80px) scale(1.15); }
-        }
-
-        /* Desktop Interactive Light Follower */
-        .mouse-cursor-glow {
-            position: fixed;
-            width: 450px;
-            height: 450px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-            will-change: transform;
-        }
-
-        /* Main Container Card */
-        .card-wrapper {
-            perspective: 1000px;
+        /* Profile Card Wrapper */
+        .card-container {
             width: 100%;
             max-width: 440px;
-            z-index: 2;
-        }
-
-        .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-glass);
-            border-radius: 28px;
-            padding: 38px 28px;
-            text-align: center;
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                0 0 40px var(--accent-glow);
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
-            transform-style: preserve-3d;
-            will-change: transform;
-            
-            /* Initial Entry State */
-            opacity: 0;
-            transform: translateY(30px) scale(0.92);
-        }
-
-        .glass-card.card-loaded {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .glass-card:hover {
-            border-color: var(--border-glass-hover);
-            box-shadow: 
-                0 35px 70px rgba(0, 0, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25),
-                0 0 50px rgba(124, 58, 237, 0.35);
-        }
-
-        /* Profile Image Setup */
-        .avatar-section {
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 32px 20px;
             display: flex;
-            justify-content: center;
-            margin-bottom: 22px;
-            opacity: 0;
-            transform: scale(0.7);
-            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: fadeInCard 0.8s ease-out forwards;
         }
 
-        .avatar-section.is-visible {
-            opacity: 1;
-            transform: scale(1);
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .avatar-ring-container {
+        /* 1. Profile Image */
+        .profile-img-wrapper {
             position: relative;
-            width: 126px;
-            height: 126px;
-            border-radius: 50%;
-            padding: 4px;
-            animation: floatingImage 6s ease-in-out infinite;
+            width: 180px;
+            height: 180px;
+            margin-bottom: 20px;
+            animation: floatImage 4s ease-in-out infinite;
         }
 
-        @keyframes floatingImage {
+        @keyframes floatImage {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
-        }
-
-        /* Rotating Gradient Ring */
-        .avatar-ring-container::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan), var(--accent-blue));
-            z-index: 0;
-            filter: blur(8px);
-            opacity: 0.8;
-            animation: rotateRing 8s linear infinite;
-        }
-
-        @keyframes rotateRing {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .img-box {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            z-index: 1;
-            background: var(--bg-dark);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         .profile-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
-            image-rendering: -webkit-optimize-contrast;
+            border-radius: 50%;
+            border: 3.5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px var(--primary-glow),
+                        0 10px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease;
         }
 
-        .avatar-ring-container:hover .profile-img {
-            transform: scale(1.06);
+        .profile-img-wrapper:hover .profile-img {
+            transform: scale(1.04);
+            border-color: var(--primary);
         }
 
-        /* Light Sweep Effect over Profile Picture */
-        .img-box::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transform: skewX(-25deg);
-            animation: lightSweep 9s infinite ease-in-out;
-        }
-
-        @keyframes lightSweep {
-            0%, 70%, 100% { left: -100%; }
-            85% { left: 160%; }
-        }
-
-        /* Name & Title Typography */
-        .profile-name {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 6px;
-            min-height: 38px;
-            direction: ltr;
+        /* Typewriter Cursor Base */
+        .typewriter-text {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            position: relative;
             display: inline-block;
-        }
-
-        .profile-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--accent-cyan);
-            letter-spacing: 0.3px;
-            min-height: 24px;
+            white-space: pre-wrap;
             direction: ltr;
-            margin-bottom: 22px;
         }
 
-        /* Cursor Element for Typewriter */
-        .typing-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1em;
-            background-color: var(--accent-cyan);
+        /* Cursor Styling */
+        .cursor::after {
+            content: '|';
+            position: relative;
             margin-left: 2px;
-            vertical-align: middle;
-            animation: blinkCursor 0.8s infinite;
+            color: var(--primary);
+            animation: blink 0.8s infinite;
+        }
+        
+        .cursor.rtl-cursor::after {
+            margin-left: 0;
+            margin-right: 2px;
         }
 
-        .typing-cursor.is-hidden {
-            display: none;
-        }
-
-        @keyframes blinkCursor {
+        @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
 
-        /* Arabic Bio Rotating Carousel */
-        .bio-container {
-            position: relative;
-            min-height: 54px;
-            margin-bottom: 26px;
-            overflow: hidden;
+        /* 2. Name */
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            min-height: 36px;
+            margin-bottom: 4px;
+        }
+
+        /* 3. Title */
+        .profile-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            min-height: 26px;
+            margin-bottom: 16px;
+            letter-spacing: 0.2px;
+        }
+
+        /* 4. Arabic Bio */
+        .profile-bio {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            min-height: 48px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            direction: rtl;
+            padding: 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Social & Contact Elements Delay Animation */
+        .delayed-element {
             opacity: 0;
             transform: translateY(15px);
             transition: opacity 0.6s ease, transform 0.6s ease;
-            direction: rtl;
+            width: 100%;
         }
 
-        .bio-container.is-visible {
+        .delayed-element.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .bio-text {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text-arabic);
-            line-height: 1.6;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px) scale(0.98);
-            filter: blur(4px);
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-            pointer-events: none;
-        }
-
-        .bio-text.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0);
-            pointer-events: auto;
-            position: relative;
-        }
-
-        .bio-text.exit {
-            opacity: 0;
-            transform: translateY(-20px) scale(0.98);
-            filter: blur(4px);
-        }
-
-        /* Social Media Icons Grid */
-        .social-icons {
+        /* 5. Social Links */
+        .social-links {
             display: flex;
             justify-content: center;
-            gap: 14px;
-            margin-bottom: 30px;
-            direction: ltr;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .social-btn {
-            position: relative;
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-glass);
-            color: var(--text-sub);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 18px;
+            justify-content: center;
+            font-size: 1.1rem;
             text-decoration: none;
-            transition: var(--transition-smooth);
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(15px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .social-btn.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Tooltip */
-        .social-btn::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: -32px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.8);
-            background: rgba(7, 9, 14, 0.95);
-            border: 1px solid var(--border-glass);
-            color: #fff;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition-smooth);
-        }
-
-        .social-btn:hover::after {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-            bottom: -36px;
-        }
-
-        /* Individual Social Hover Styles */
-        .social-btn.facebook:hover { background: #1877f2; color: #fff; box-shadow: 0 0 20px rgba(24, 119, 242, 0.5); border-color: transparent; }
-        .social-btn.twitter:hover { background: #000000; color: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); border-color: rgba(255,255,255,0.4); }
-        .social-btn.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; box-shadow: 0 0 20px rgba(220, 39, 67, 0.5); border-color: transparent; }
-        .social-btn.linkedin:hover { background: #0a66c2; color: #fff; box-shadow: 0 0 20px rgba(10, 102, 194, 0.5); border-color: transparent; }
 
         .social-btn:hover {
-            transform: translateY(-4px) scale(1.08);
+            transform: translateY(-4px);
+            border-color: transparent;
         }
 
-        .social-btn i {
-            transition: transform 0.3s ease;
-        }
+        .social-btn.fb:hover { background: #1877f2; box-shadow: 0 5px 15px rgba(24, 119, 242, 0.4); }
+        .social-btn.tw:hover { background: #000000; border-color: rgba(255,255,255,0.3); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); }
+        .social-btn.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 5px 15px rgba(220, 39, 67, 0.4); }
+        .social-btn.li:hover { background: #0a66c2; box-shadow: 0 5px 15px rgba(10, 102, 194, 0.4); }
 
-        .social-btn:hover i {
-            transform: rotate(8deg);
-        }
-
-        /* Contact Action Buttons */
-        .contact-info {
+        /* 6. Contact Buttons */
+        .contact-group {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            direction: ltr;
+            gap: 10px;
+            margin-bottom: 28px;
         }
 
         .contact-btn {
-            position: relative;
+            width: 100%;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 15px 22px;
-            border-radius: 16px;
-            color: var(--text-main);
-            font-size: 15px;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
             font-weight: 600;
             text-decoration: none;
-            overflow: hidden;
-            transition: var(--transition-smooth);
-            border: 1px solid var(--border-glass);
-            opacity: 0;
-            transform: translateY(15px);
+            transition: all 0.3s ease;
         }
 
-        .contact-btn.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 1;
-        }
-
-        .contact-btn i.main-icon {
-            font-size: 20px;
-            width: 24px;
-            text-align: center;
-        }
-
-        .contact-btn i.arrow-icon {
-            font-size: 13px;
-            opacity: 0.5;
-            transition: var(--transition-smooth);
-            z-index: 1;
-        }
-
-        .contact-btn:hover i.arrow-icon {
-            opacity: 1;
-            transform: translateX(4px);
-        }
-
-        /* Distinct Button Styling */
-        .contact-btn.whatsapp {
-            background: rgba(37, 211, 102, 0.08);
-            border-color: rgba(37, 211, 102, 0.2);
-            color: #4ade80;
-        }
-
-        .contact-btn.whatsapp:hover {
-            background: #25D366;
-            color: #052e16;
-            box-shadow: 0 0 25px rgba(37, 211, 102, 0.4);
-            border-color: transparent;
-        }
-
-        .contact-btn.phone {
-            background: rgba(37, 99, 235, 0.08);
-            border-color: rgba(37, 99, 235, 0.2);
-            color: #60a5fa;
-        }
-
-        .contact-btn.phone:hover {
-            background: var(--accent-blue);
-            color: #ffffff;
-            box-shadow: 0 0 25px rgba(37, 99, 235, 0.4);
-            border-color: transparent;
-        }
-
-        .contact-btn.email {
-            background: rgba(124, 58, 237, 0.08);
-            border-color: rgba(124, 58, 237, 0.2);
-            color: #c084fc;
-        }
-
-        .contact-btn.email:hover {
-            background: var(--accent-purple);
-            color: #ffffff;
-            box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
-            border-color: transparent;
+        .contact-btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
         }
 
         .contact-btn:hover {
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
         }
 
-        /* Material Ripple Effect */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.35);
-            transform: scale(0);
-            animation: rippleAnim 0.6s linear;
-            pointer-events: none;
+        .contact-btn:hover i {
+            transform: scale(1.15);
         }
 
-        @keyframes rippleAnim {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        .contact-btn.wa:hover { border-color: #25d366; color: #25d366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.15); }
+        .contact-btn.email:hover { border-color: #38bdf8; color: #38bdf8; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15); }
+        .contact-btn.call:hover { border-color: #10b981; color: #10b981; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15); }
+
+        /* Divider */
+        .section-divider {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        /* Accessibility: Reduce Motion Support */
-        @media (prefers-reduced-motion: reduce) {
-            .blob, .avatar-ring-container, .img-box::after {
-                animation: none !important;
-            }
-            .glass-card, .contact-btn, .social-btn, .profile-img, .bio-text {
-                transition: none !important;
-            }
-            .glass-card, .avatar-section, .bio-container, .social-btn, .contact-btn {
-                opacity: 1 !important;
-                transform: none !important;
-            }
-            .typing-cursor {
-                display: none !important;
-            }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Mobile Tweaks */
-        @media (max-width: 480px) {
-            body {
-                padding: 16px 12px;
+        .section-title {
+            padding: 0 14px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* 7. Payment Section */
+        .payment-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            text-align: right;
+            transition: all 0.3s ease;
+        }
+
+        .payment-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .payment-card.vf .payment-header { color: #f43f5e; }
+        .payment-card.insta .payment-header { color: #a78bfa; }
+        .payment-card.bank .payment-header { color: #60a5fa; }
+
+        .number-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .number-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            direction: ltr;
+        }
+
+        .number-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--primary);
+        }
+
+        .number-item span {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        .number-item i {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .number-item:hover i {
+            color: var(--primary);
+        }
+
+        .bank-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .bank-link:hover {
+            background: rgba(59, 130, 246, 0.18);
+            border-color: var(--bank-color);
+            transform: translateY(-1px);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(40px);
+            background: #10b981;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Desktop Adjustments */
+        @media (min-width: 600px) {
+            .card-container {
+                padding: 40px 28px;
             }
-            .glass-card {
-                padding: 30px 20px;
-                border-radius: 24px;
-            }
-            .avatar-ring-container {
-                width: 112px;
-                height: 112px;
-            }
-            .profile-name {
-                font-size: 23px;
-                min-height: 34px;
-            }
-            .profile-title {
-                font-size: 14px;
-            }
-            .social-icons {
-                gap: 10px;
-            }
-            .social-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 16px;
-            }
-            .social-btn::after {
-                display: none;
-            }
-            .mouse-cursor-glow {
-                display: none;
+            .profile-img-wrapper {
+                width: 190px;
+                height: 190px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Dynamic Background -->
-    <div class="bg-canvas">
-        <div class="gradient-mesh"></div>
-        <div class="blob blob-1" id="blob1"></div>
-        <div class="blob blob-2" id="blob2"></div>
-    </div>
+    <div class="card-container">
+        <!-- 1. Profile Image -->
+        <div class="profile-img-wrapper">
+            <img src="icn.jpg" alt="Mohamed Ibrahim" class="profile-img">
+        </div>
 
-    <!-- Desktop Mouse Light Glow -->
-    <div class="mouse-cursor-glow" id="mouseGlow"></div>
+        <!-- 2. Name -->
+        <h1 class="profile-name">
+            <span id="name-target" class="typewriter-text cursor"></span>
+        </h1>
 
-    <!-- Main Card Container -->
-    <div class="card-wrapper">
-        <main class="glass-card" id="card">
+        <!-- 3. Title -->
+        <p class="profile-title">
+            <span id="title-target" class="typewriter-text"></span>
+        </p>
+
+        <!-- 4. Arabic Bio Animated Loop -->
+        <div class="profile-bio">
+            <span id="bio-target" class="typewriter-text rtl-cursor"></span>
+        </div>
+
+        <!-- Delayed Container for Remaining Elements -->
+        <div class="delayed-element" id="delayed-content">
             
-            <!-- Profile Avatar Section -->
-            <div class="avatar-section" id="avatarSec">
-                <div class="avatar-ring-container">
-                    <div class="img-box">
-                        <img src="icn.jpg" alt="Mohamed Ibrahim" class="profile-img">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Name with Single Typewriter Animation -->
-            <h1 class="profile-name">
-                <span id="nameText"></span><span class="typing-cursor" id="nameCursor"></span>
-            </h1>
-
-            <!-- Title with Single Typewriter Animation -->
-            <div class="profile-title">
-                <span id="titleText"></span><span class="typing-cursor is-hidden" id="titleCursor"></span>
-            </div>
-
-            <!-- Arabic Bio Carousel (Fade/Slide/Blur) -->
-            <div class="bio-container" id="bioSec">
-                <p class="bio-text active">أحوّل الأفكار إلى تجارب ويب تفاعلية ومميزة.</p>
-                <p class="bio-text">أهتم ببناء واجهات عصرية، سريعة وسهلة الاستخدام.</p>
-                <p class="bio-text">أحب كتابة كود نظيف وتحويل الأفكار إلى منتجات حقيقية.</p>
-            </div>
-
-            <!-- Social Links -->
-            <nav class="social-icons" aria-label="Social Profiles">
-                <a href="http://facebook.com/mohamedicn" class="social-btn facebook" aria-label="Facebook Profile" data-tooltip="Facebook" target="_blank" rel="noopener">
+            <!-- 5. Social Links -->
+            <div class="social-links">
+                <a href="http://facebook.com/mohamedicn" target="_blank" class="social-btn fb" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://x.com/MohamedIbr8341" class="social-btn twitter" aria-label="X Profile" data-tooltip="X / Twitter" target="_blank" rel="noopener">
+                <a href="https://x.com/MohamedIbr8341" target="_blank" class="social-btn tw" aria-label="X">
                     <i class="fab fa-x-twitter"></i>
                 </a>
-                <a href="https://www.instagram.com/icn.eg/" class="social-btn instagram" aria-label="Instagram Profile" data-tooltip="Instagram" target="_blank" rel="noopener">
+                <a href="https://www.instagram.com/icn.eg/" target="_blank" class="social-btn ig" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" class="social-btn linkedin" aria-label="LinkedIn Profile" data-tooltip="LinkedIn" target="_blank" rel="noopener">
+                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" target="_blank" class="social-btn li" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
-                </a>
-            </nav>
-
-            <!-- Direct Contact Actions -->
-            <div class="contact-info">
-                <a href="https://wa.me/+201032431926" class="contact-btn whatsapp" target="_blank" rel="noopener">
-                    <div class="btn-left">
-                        <i class="fab fa-whatsapp main-icon"></i>
-                        <span>WhatsApp</span>
-                    </div>
-                    <i class="fas fa-chevron-right arrow-icon"></i>
-                </a>
-                
-                <a href="tel:+201032431926" class="contact-btn phone">
-                    <div class="btn-left">
-                        <i class="fas fa-phone main-icon"></i>
-                        <span>Call Now</span>
-                    </div>
-                    <i class="fas fa-chevron-right arrow-icon"></i>
-                </a>
-                
-                <a href="mailto:icnegcompany@gmail.com" class="contact-btn email">
-                    <div class="btn-left">
-                        <i class="fas fa-envelope main-icon"></i>
-                        <span>Email Me</span>
-                    </div>
-                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
             </div>
 
-        </main>
+            <!-- 6. WhatsApp / Email / Call -->
+            <div class="contact-group">
+                <a href="https://wa.me/+201032431926" target="_blank" class="contact-btn wa">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="mailto:mohamedicn@qq.co" class="contact-btn email">
+                    <i class="far fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+                <a href="tel:+201032431926" class="contact-btn call">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Call</span>
+                </a>
+            </div>
+
+            <!-- Divider -->
+            <div class="section-divider">
+                <span class="section-title">طرق الدفع</span>
+            </div>
+
+            <!-- 7. Payment Cards -->
+            <div class="payment-section">
+                
+                <!-- Vodafone Cash -->
+                <div class="payment-card vf">
+                    <div class="payment-header">
+                        <i class="fas fa-wallet"></i>
+                        <span>Vodafone Cash</span>
+                    </div>
+                    <div class="number-list">
+                        <div class="number-item" onclick="copyPaymentNumber('01032431926')">
+                            <span>01032431926</span>
+                            <i class="far fa-copy"></i>
+                        </div>
+                        <div class="number-item" onclick="copyPaymentNumber('01034101120')">
+                            <span>01034101120</span>
+                            <i class="far fa-copy"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- InstaPay -->
+                <div class="payment-card insta">
+                    <div class="payment-header">
+                        <i class="fas fa-bolt"></i>
+                        <span>InstaPay</span>
+                    </div>
+                    <div class="number-list">
+                        <div class="number-item" onclick="copyPaymentNumber('01032431926')">
+                            <span>01032431926</span>
+                            <i class="far fa-copy"></i>
+                        </div>
+                        <div class="number-item" onclick="copyPaymentNumber('01034101120')">
+                            <span>01034101120</span>
+                            <i class="far fa-copy"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bank Account -->
+                <div class="payment-card bank">
+                    <div class="payment-header">
+                        <i class="fas fa-university"></i>
+                        <span>حساب بنكي</span>
+                    </div>
+                    <a href="mobank.pdf" target="_blank" class="bank-link">
+                        <span>عرض بيانات الحساب البنكي</span>
+                        <i class="fas fa-file-pdf"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
-    <!-- Vanilla JavaScript for Orchestrations -->
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span>تم نسخ الرقم ✓</span>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Data & Texts
+        const nameText = "Mohamed Ibrahim";
+        const titleText = "Web Developer & Designer";
+        const bioPhrases = [
+            "أحوّل الأفكار إلى تجارب ويب تفاعلية ومميزة.",
+            "أهتم ببناء واجهات عصرية وسريعة وسهلة الاستخدام.",
+            "أحب كتابة كود نظيف وتحويل الأفكار إلى منتجات حقيقية."
+        ];
 
-            // Target Elements
-            const card = document.getElementById('card');
-            const avatarSec = document.getElementById('avatarSec');
-            const nameTextEl = document.getElementById('nameText');
-            const nameCursorEl = document.getElementById('nameCursor');
-            const titleTextEl = document.getElementById('titleText');
-            const titleCursorEl = document.getElementById('titleCursor');
-            const bioSec = document.getElementById('bioSec');
-            const socialBtns = document.querySelectorAll('.social-btn');
-            const contactBtns = document.querySelectorAll('.contact-btn');
-            const mouseGlow = document.getElementById('mouseGlow');
-            const blob1 = document.getElementById('blob1');
-            const blob2 = document.getElementById('blob2');
+        // Elements
+        const nameTarget = document.getElementById("name-target");
+        const titleTarget = document.getElementById("title-target");
+        const bioTarget = document.getElementById("bio-target");
+        const delayedContent = document.getElementById("delayed-content");
 
-            // Data Strings
-            const fullName = "Mohamed Ibrahim";
-            const fullTitle = "Web Developer & Designer";
+        // Helper delay function
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-            /* -------------------------------------------------------------
-               1. Master Orchestrated Entrance Sequence
-            ------------------------------------------------------------- */
-            function runEntranceSequence() {
-                // Step 1: Card Appearance
-                setTimeout(() => {
-                    card.classList.add('card-loaded');
-                }, 100);
-
-                // Step 2: Avatar Reveal
-                setTimeout(() => {
-                    avatarSec.classList.add('is-visible');
-                }, 400);
-
-                // Step 3: Name Typewriter (Executes ONCE)
-                setTimeout(() => {
-                    typeWriter(fullName, nameTextEl, 70, () => {
-                        // After Name completes, hide name cursor smooth
-                        nameCursorEl.classList.add('is-hidden');
-                        
-                        // Step 4: Title Typewriter
-                        titleCursorEl.classList.remove('is-hidden');
-                        typeWriter(fullTitle, titleTextEl, 55, () => {
-                            titleCursorEl.classList.add('is-hidden');
-
-                            // Step 5: Bio Reveal & Carousel Start
-                            bioSec.classList.add('is-visible');
-                            initBioCarousel();
-
-                            // Step 6: Sequenced Social Icons Appearance
-                            socialBtns.forEach((btn, index) => {
-                                setTimeout(() => {
-                                    btn.classList.add('is-visible');
-                                }, index * 80);
-                            });
-
-                            // Step 7: Sequenced Contact Buttons Appearance
-                            const socialTotalTime = socialBtns.length * 80;
-                            contactBtns.forEach((btn, index) => {
-                                setTimeout(() => {
-                                    btn.classList.add('is-visible');
-                                }, socialTotalTime + (index * 100));
-                            });
-                        });
-                    });
-                }, 700);
+        // 1. Single Typewriter Effect (Name & Title)
+        async function typeOnce(element, text, speed = 80) {
+            element.classList.add("cursor");
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text.charAt(i);
+                await sleep(speed);
             }
+            element.classList.remove("cursor");
+        }
 
-            /* Helper: Vanilla Typewriter Effect */
-            function typeWriter(text, element, speed, onComplete) {
-                if (prefersReducedMotion) {
-                    element.textContent = text;
-                    if (onComplete) onComplete();
-                    return;
+        // 2. Continuous Bio Animation (Type -> Wait -> Delete -> Repeat)
+        async function startBioLoop() {
+            bioTarget.classList.add("cursor");
+            let index = 0;
+
+            while (true) {
+                let currentPhrase = bioPhrases[index];
+
+                // Type phase
+                for (let i = 0; i < currentPhrase.length; i++) {
+                    bioTarget.textContent += currentPhrase.charAt(i);
+                    await sleep(45);
                 }
-                let i = 0;
-                function type() {
-                    if (i < text.length) {
-                        element.textContent += text.charAt(i);
-                        i++;
-                        setTimeout(type, speed);
-                    } else if (onComplete) {
-                        onComplete();
-                    }
+
+                // Wait phase (2.5 to 3 seconds)
+                await sleep(2800);
+
+                // Delete phase
+                for (let i = currentPhrase.length; i > 0; i--) {
+                    bioTarget.textContent = currentPhrase.substring(0, i - 1);
+                    await sleep(25);
                 }
-                type();
+
+                await sleep(300);
+                index = (index + 1) % bioPhrases.length;
             }
+        }
 
-            /* -------------------------------------------------------------
-               2. Arabic Bio Text Rotating Carousel
-            ------------------------------------------------------------- */
-            function initBioCarousel() {
-                const bioTexts = document.querySelectorAll('.bio-text');
-                let currentIndex = 0;
+        // Main Execution Flow
+        async function initAnimations() {
+            // Step 1: Type Name
+            await typeOnce(nameTarget, nameText, 70);
+            
+            // Step 2: Type Title
+            titleTarget.classList.add("cursor");
+            await typeOnce(titleTarget, titleText, 50);
 
-                setInterval(() => {
-                    const currentEl = bioTexts[currentIndex];
-                    currentIndex = (currentIndex + 1) % bioTexts.length;
-                    const nextEl = bioTexts[currentIndex];
+            // Step 3: Show delayed content (Social & Payment sections)
+            delayedContent.classList.add("visible");
 
-                    currentEl.classList.remove('active');
-                    currentEl.classList.add('exit');
+            // Step 4: Start Arabic Bio loop
+            startBioLoop();
+        }
 
-                    setTimeout(() => {
-                        currentEl.classList.remove('exit');
-                        nextEl.classList.add('active');
-                    }, 600); // Sync with CSS transition
-                }, 4000); // Rotates every 4 seconds
+        // Reusable Copy Payment Function with Fallback
+        function copyPaymentNumber(number) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(number)
+                    .then(() => showToast())
+                    .catch(() => fallbackCopy(number));
+            } else {
+                fallbackCopy(number);
             }
+        }
 
-            /* -------------------------------------------------------------
-               3. Mouse Tilt & Pointer Light Follower (Desktop Only)
-            ------------------------------------------------------------- */
-            if (!isTouchDevice && !prefersReducedMotion) {
-                let rafId = null;
-
-                document.addEventListener('mousemove', (e) => {
-                    if (rafId) cancelAnimationFrame(rafId);
-
-                    rafId = requestAnimationFrame(() => {
-                        const { clientX: x, clientY: y } = e;
-                        const { innerWidth: w, innerHeight: h } = window;
-
-                        // Mouse Light Follower
-                        mouseGlow.style.opacity = '1';
-                        mouseGlow.style.left = `${x}px`;
-                        mouseGlow.style.top = `${y}px`;
-
-                        // Subtle 3D Tilt for Card (Max 3.5 degrees)
-                        const centerX = w / 2;
-                        const centerY = h / 2;
-                        const tiltX = (y - centerY) / (h / 2) * -3.5;
-                        const tiltY = (x - centerX) / (w / 2) * 3.5;
-
-                        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-
-                        // Parallax for Background Blobs
-                        const moveX = (x - centerX) * 0.015;
-                        const moveY = (y - centerY) * 0.015;
-                        blob1.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                        blob2.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
-                    });
-                });
-
-                document.addEventListener('mouseleave', () => {
-                    mouseGlow.style.opacity = '0';
-                    card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                    blob1.style.transform = 'translate(0px, 0px)';
-                    blob2.style.transform = 'translate(0px, 0px)';
-                });
+        function fallbackCopy(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (err) {
+                console.error('Copy failed', err);
             }
+            document.body.removeChild(textArea);
+        }
 
-            /* -------------------------------------------------------------
-               4. Button Ripple Click Micro-interaction
-            ------------------------------------------------------------- */
-            const rippleTargets = document.querySelectorAll('.contact-btn, .social-btn');
-            rippleTargets.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const circle = document.createElement('span');
-                    const diameter = Math.max(this.clientWidth, this.clientHeight);
-                    const radius = diameter / 2;
-                    const rect = this.getBoundingClientRect();
+        // Toast Trigger
+        let toastTimeout;
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
 
-                    circle.style.width = circle.style.height = `${diameter}px`;
-                    circle.style.left = `${e.clientX - rect.left - radius}px`;
-                    circle.style.top = `${e.clientY - rect.top - radius}px`;
-                    circle.classList.add('ripple');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2200);
+        }
 
-                    const existingRipple = this.querySelector('.ripple');
-                    if (existingRipple) existingRipple.remove();
-
-                    this.appendChild(circle);
-                });
-            });
-
-            // Start Execution
-            runEntranceSequence();
+        // Start animation sequence after DOM loads
+        window.addEventListener("DOMContentLoaded", () => {
+            setTimeout(initAnimations, 300);
         });
     </script>
 </body>
