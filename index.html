@@ -3,72 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohamed Ibrahim - Profile Card</title>
+    <title>Mohamed Ibrahim - Digital Business Card</title>
 
     <!-- Font Awesome Icons & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #0d0f17;
-            --card-bg: rgba(22, 27, 38, 0.75);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.35);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-green: #10b981;
-            --accent-purple: #a855f7;
-            --vf-cash: #e11d48;
-            --instapay: #8b5cf6;
-            --bank-color: #3b82f6;
-            --radius-lg: 24px;
-            --radius-md: 14px;
-            --radius-sm: 10px;
+            --bg-gradient: linear-gradient(135deg, #f0f4fd 0%, #e8eefa 50%, #f5f3ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.9);
+            --shadow-soft: 0 20px 40px rgba(30, 41, 59, 0.06);
+            --shadow-hover: 0 10px 25px rgba(30, 41, 59, 0.1);
+            
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
+            
+            --radius-card: 32px;
+            --radius-img: 24px;
+            --radius-btn: 16px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Cairo', 'Inter', sans-serif;
+            font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.12) 0px, transparent 50%);
+            background: var(--bg-gradient);
             background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px 12px;
+            padding: 24px 12px;
             color: var(--text-main);
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Profile Card Wrapper */
+        /* Ambient Background Blobs */
+        .ambient-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 350px;
+            height: 350px;
+            background: #dbeafe;
+        }
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: #ede9fe;
+        }
+
+        /* Main Container Card */
         .card-container {
+            position: relative;
+            z-index: 1;
             width: 100%;
-            max-width: 440px;
+            max-width: 460px;
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--card-border);
-            border-radius: var(--radius-lg);
-            padding: 32px 20px;
+            border-radius: var(--radius-card);
+            padding: 36px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-soft);
             animation: fadeInCard 0.8s ease-out forwards;
         }
 
@@ -77,46 +98,45 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 1. Profile Image */
+        /* 2. Square Profile Image & Entrance Animation */
         .profile-img-wrapper {
             position: relative;
-            width: 180px;
-            height: 180px;
-            margin-bottom: 20px;
-            animation: floatImage 4s ease-in-out infinite;
+            width: 210px;
+            height: 210px;
+            margin-bottom: 24px;
+            animation: imageEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
         }
 
-        @keyframes floatImage {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        @keyframes imageEntrance {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .profile-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 50%;
-            border: 3.5px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 25px var(--primary-glow),
-                        0 10px 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease;
+            border-radius: var(--radius-img);
+            border: 4px solid #ffffff;
+            box-shadow: 0 12px 30px rgba(79, 70, 229, 0.12), 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .profile-img-wrapper:hover .profile-img {
-            transform: scale(1.04);
-            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(79, 70, 229, 0.18);
         }
 
-        /* Typewriter Cursor Base */
+        /* Typewriter Cursor Setup */
         .typewriter-text {
-            font-family: 'Inter', 'Cairo', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
             position: relative;
             display: inline-block;
             white-space: pre-wrap;
             direction: ltr;
         }
 
-        /* Cursor Styling */
         .cursor::after {
             content: '|';
             position: relative;
@@ -135,264 +155,320 @@
             50% { opacity: 0; }
         }
 
-        /* 2. Name */
+        /* Typography */
         .profile-name {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: var(--text-main);
-            min-height: 36px;
+            min-height: 40px;
             margin-bottom: 4px;
         }
 
-        /* 3. Title */
         .profile-title {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.98rem;
+            font-weight: 700;
             color: var(--primary);
-            min-height: 26px;
+            min-height: 28px;
             margin-bottom: 16px;
             letter-spacing: 0.2px;
         }
 
-        /* 4. Arabic Bio */
         .profile-bio {
-            font-size: 0.92rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--text-muted);
-            min-height: 48px;
+            min-height: 52px;
             line-height: 1.6;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             direction: rtl;
-            padding: 0 8px;
+            padding: 0 10px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* Social & Contact Elements Delay Animation */
-        .delayed-element {
+        /* Layout Container for Buttons & Payment */
+        .content-flow {
+            width: 100%;
             opacity: 0;
             transform: translateY(15px);
             transition: opacity 0.6s ease, transform 0.6s ease;
-            width: 100%;
         }
 
-        .delayed-element.visible {
+        .content-flow.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* 5. Social Links */
-        .social-links {
+        /* 7-10. Full Width Colorful Buttons */
+        .buttons-list {
             display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .action-btn {
+            width: 100%;
+            min-height: 58px;
+            border-radius: var(--radius-btn);
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: 1.25rem;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .btn-text {
+            font-size: 0.98rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-arrow {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            transition: transform 0.25s ease;
+        }
+
+        .action-btn:hover .btn-arrow {
+            transform: translateX(-3px);
+            opacity: 1;
+        }
+
+        /* Specific Button Themes (Soft Colorful) */
+        .btn-wa {
+            background: #eafbf1;
+            border-color: rgba(37, 211, 102, 0.25);
+        }
+        .btn-wa .btn-icon { color: #25d366; }
+        .btn-wa .btn-text, .btn-wa .btn-arrow { color: #168a45; }
+
+        .btn-email {
+            background: #f0f4ff;
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+        .btn-email .btn-icon { color: #6366f1; }
+        .btn-email .btn-text, .btn-email .btn-arrow { color: #4338ca; }
+
+        .btn-call {
+            background: #e0f2fe;
+            border-color: rgba(14, 165, 233, 0.25);
+        }
+        .btn-call .btn-icon { color: #0ea5e9; }
+        .btn-call .btn-text, .btn-call .btn-arrow { color: #0369a1; }
+
+        .btn-fb {
+            background: #eef4ff;
+            border-color: rgba(24, 119, 242, 0.2);
+        }
+        .btn-fb .btn-icon { color: #1877f2; }
+        .btn-fb .btn-text, .btn-fb .btn-arrow { color: #1559b0; }
+
+        .btn-x {
+            background: #f3f4f6;
+            border-color: rgba(17, 24, 39, 0.15);
+        }
+        .btn-x .btn-icon { color: #111827; }
+        .btn-x .btn-text, .btn-x .btn-arrow { color: #111827; }
+
+        .btn-ig {
+            background: #fdf2f8;
+            border-color: rgba(219, 39, 119, 0.2);
+        }
+        .btn-ig .btn-icon {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-ig .btn-text, .btn-ig .btn-arrow { color: #9d174d; }
+
+        .btn-li {
+            background: #eef7ff;
+            border-color: rgba(10, 102, 194, 0.2);
+        }
+        .btn-li .btn-icon { color: #0a66c2; }
+        .btn-li .btn-text, .btn-li .btn-arrow { color: #07558f; }
+
+        /* Section Divider */
+        .section-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
             gap: 12px;
             margin-bottom: 20px;
         }
 
-        .social-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .social-btn:hover {
-            transform: translateY(-4px);
-            border-color: transparent;
-        }
-
-        .social-btn.fb:hover { background: #1877f2; box-shadow: 0 5px 15px rgba(24, 119, 242, 0.4); }
-        .social-btn.tw:hover { background: #000000; border-color: rgba(255,255,255,0.3); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); }
-        .social-btn.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); box-shadow: 0 5px 15px rgba(220, 39, 67, 0.4); }
-        .social-btn.li:hover { background: #0a66c2; box-shadow: 0 5px 15px rgba(10, 102, 194, 0.4); }
-
-        /* 6. Contact Buttons */
-        .contact-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 28px;
-        }
-
-        .contact-btn {
-            width: 100%;
-            height: 48px;
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .contact-btn i {
-            font-size: 1.1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
-        }
-
-        .contact-btn:hover i {
-            transform: scale(1.15);
-        }
-
-        .contact-btn.wa:hover { border-color: #25d366; color: #25d366; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.15); }
-        .contact-btn.email:hover { border-color: #38bdf8; color: #38bdf8; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15); }
-        .contact-btn.call:hover { border-color: #10b981; color: #10b981; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15); }
-
-        /* Divider */
-        .section-divider {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .section-divider::before,
-        .section-divider::after {
+        .section-header::before,
+        .section-header::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: 1px;
+            background: rgba(100, 116, 139, 0.15);
         }
 
         .section-title {
-            padding: 0 14px;
-            font-size: 0.9rem;
-            font-weight: 700;
+            font-size: 0.92rem;
+            font-weight: 800;
             color: var(--text-muted);
             letter-spacing: 0.5px;
         }
 
-        /* 7. Payment Section */
+        /* 11-16. Payment Section */
         .payment-section {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
+            width: 100%;
         }
 
         .payment-card {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: var(--radius-md);
-            padding: 16px;
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: var(--radius-btn);
+            padding: 18px;
             text-align: right;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
             transition: all 0.3s ease;
         }
 
         .payment-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-hover);
         }
 
         .payment-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
         }
 
-        .payment-card.vf .payment-header { color: #f43f5e; }
-        .payment-card.insta .payment-header { color: #a78bfa; }
-        .payment-card.bank .payment-header { color: #60a5fa; }
+        .payment-card.vf { border-top: 3.5px solid #f43f5e; }
+        .payment-card.vf .payment-header { color: #e11d48; }
+
+        .payment-card.insta { border-top: 3.5px solid #8b5cf6; }
+        .payment-card.insta .payment-header { color: #6d28d9; }
+
+        .payment-card.bank { border-top: 3.5px solid #3b82f6; }
+        .payment-card.bank .payment-header { color: #1d4ed8; }
+
+        .payment-subtext {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
 
         .number-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .number-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px dashed rgba(255, 255, 255, 0.12);
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 10px 14px;
+            border-radius: 12px;
             direction: ltr;
         }
 
-        .number-item:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: var(--primary);
-        }
-
         .number-item span {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.98rem;
             color: var(--text-main);
             letter-spacing: 0.5px;
         }
 
-        .number-item i {
+        .copy-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            transition: color 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
         }
 
-        .number-item:hover i {
-            color: var(--primary);
+        .copy-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
         }
 
         .bank-link {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(59, 130, 246, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
             padding: 12px 16px;
-            border-radius: var(--radius-sm);
-            color: var(--text-main);
+            border-radius: 12px;
+            color: #1e40af;
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 0.92rem;
+            font-weight: 700;
+            transition: all 0.25s ease;
         }
 
         .bank-link:hover {
-            background: rgba(59, 130, 246, 0.18);
-            border-color: var(--bank-color);
-            transform: translateY(-1px);
+            background: #dbeafe;
+            border-color: #93c5fd;
         }
 
-        /* Toast Notification */
+        /* Modern Toast */
         .toast {
             position: fixed;
             bottom: 24px;
             left: 50%;
             transform: translateX(-50%) translateY(40px);
-            background: #10b981;
+            background: #0f172a;
             color: #ffffff;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 30px;
             font-weight: 700;
             font-size: 0.88rem;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -402,88 +478,131 @@
             z-index: 9999;
         }
 
+        .toast i { color: #10b981; }
+
         .toast.show {
             opacity: 1;
             visibility: visible;
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Desktop Adjustments */
-        @media (min-width: 600px) {
-            .card-container {
-                padding: 40px 28px;
-            }
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
             .profile-img-wrapper {
-                width: 190px;
-                height: 190px;
+                width: 180px;
+                height: 180px;
+            }
+            .card-container {
+                padding: 28px 16px;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- Soft Ambient Background Elements -->
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+
     <div class="card-container">
-        <!-- 1. Profile Image -->
+        
+        <!-- 2 & 3. Square Profile Image -->
         <div class="profile-img-wrapper">
             <img src="icn.jpg" alt="Mohamed Ibrahim" class="profile-img">
         </div>
 
-        <!-- 2. Name -->
+        <!-- 4. Name (Typewriter Once) -->
         <h1 class="profile-name">
             <span id="name-target" class="typewriter-text cursor"></span>
         </h1>
 
-        <!-- 3. Title -->
+        <!-- 5. Title (Typewriter Once) -->
         <p class="profile-title">
             <span id="title-target" class="typewriter-text"></span>
         </p>
 
-        <!-- 4. Arabic Bio Animated Loop -->
+        <!-- 6. Arabic Animated Bio Loop -->
         <div class="profile-bio">
             <span id="bio-target" class="typewriter-text rtl-cursor"></span>
         </div>
 
-        <!-- Delayed Container for Remaining Elements -->
-        <div class="delayed-element" id="delayed-content">
+        <!-- Content Flow (Social & Contact & Payments) -->
+        <div class="content-flow" id="content-flow">
             
-            <!-- 5. Social Links -->
-            <div class="social-links">
-                <a href="http://facebook.com/mohamedicn" target="_blank" class="social-btn fb" aria-label="Facebook">
-                    <i class="fab fa-facebook-f"></i>
+            <!-- 7-10. Full Width Colorful Action Buttons -->
+            <div class="buttons-list">
+                
+                <!-- WhatsApp -->
+                <a href="https://wa.me/+201032431926" target="_blank" class="action-btn btn-wa">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="fab fa-whatsapp"></i></div>
+                        <span class="btn-text">WhatsApp</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
                 </a>
-                <a href="https://x.com/MohamedIbr8341" target="_blank" class="social-btn tw" aria-label="X">
-                    <i class="fab fa-x-twitter"></i>
-                </a>
-                <a href="https://www.instagram.com/icn.eg/" target="_blank" class="social-btn ig" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" target="_blank" class="social-btn li" aria-label="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-            </div>
 
-            <!-- 6. WhatsApp / Email / Call -->
-            <div class="contact-group">
-                <a href="https://wa.me/+201032431926" target="_blank" class="contact-btn wa">
-                    <i class="fab fa-whatsapp"></i>
-                    <span>WhatsApp</span>
+                <!-- Email -->
+                <a href="mailto:mohamedicn@qq.co" class="action-btn btn-email">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="far fa-envelope"></i></div>
+                        <span class="btn-text">Email</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
                 </a>
-                <a href="mailto:mohamedicn@qq.co" class="contact-btn email">
-                    <i class="far fa-envelope"></i>
-                    <span>Email</span>
+
+                <!-- Call -->
+                <a href="tel:+201032431926" class="action-btn btn-call">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="fas fa-phone-alt"></i></div>
+                        <span class="btn-text">Call</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
                 </a>
-                <a href="tel:+201032431926" class="contact-btn call">
-                    <i class="fas fa-phone-alt"></i>
-                    <span>Call</span>
+
+                <!-- Facebook -->
+                <a href="http://facebook.com/mohamedicn" target="_blank" class="action-btn btn-fb">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="fab fa-facebook-f"></i></div>
+                        <span class="btn-text">Facebook</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
                 </a>
+
+                <!-- X / Twitter -->
+                <a href="https://x.com/MohamedIbr8341" target="_blank" class="action-btn btn-x">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="fab fa-x-twitter"></i></div>
+                        <span class="btn-text">X / Twitter</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/icn.eg/" target="_blank" class="action-btn btn-ig">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="fab fa-instagram"></i></div>
+                        <span class="btn-text">Instagram</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/mohamed-icn-11917523a/" target="_blank" class="action-btn btn-li">
+                    <div class="btn-content">
+                        <div class="btn-icon"><i class="fab fa-linkedin-in"></i></div>
+                        <span class="btn-text">LinkedIn</span>
+                    </div>
+                    <i class="fas fa-arrow-left btn-arrow"></i>
+                </a>
+
             </div>
 
             <!-- Divider -->
-            <div class="section-divider">
+            <div class="section-header">
                 <span class="section-title">طرق الدفع</span>
             </div>
 
-            <!-- 7. Payment Cards -->
+            <!-- 11-16. Payment Section -->
             <div class="payment-section">
                 
                 <!-- Vodafone Cash -->
@@ -492,14 +611,19 @@
                         <i class="fas fa-wallet"></i>
                         <span>Vodafone Cash</span>
                     </div>
+                    <div class="payment-subtext">رقم الدفع:</div>
                     <div class="number-list">
-                        <div class="number-item" onclick="copyPaymentNumber('01032431926')">
+                        <div class="number-item">
                             <span>01032431926</span>
-                            <i class="far fa-copy"></i>
+                            <button class="copy-btn" onclick="copyPaymentNumber('01032431926')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
                         </div>
-                        <div class="number-item" onclick="copyPaymentNumber('01034101120')">
+                        <div class="number-item">
                             <span>01034101120</span>
-                            <i class="far fa-copy"></i>
+                            <button class="copy-btn" onclick="copyPaymentNumber('01034101120')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -510,14 +634,19 @@
                         <i class="fas fa-bolt"></i>
                         <span>InstaPay</span>
                     </div>
+                    <div class="payment-subtext">رقم الدفع:</div>
                     <div class="number-list">
-                        <div class="number-item" onclick="copyPaymentNumber('01032431926')">
+                        <div class="number-item">
                             <span>01032431926</span>
-                            <i class="far fa-copy"></i>
+                            <button class="copy-btn" onclick="copyPaymentNumber('01032431926')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
                         </div>
-                        <div class="number-item" onclick="copyPaymentNumber('01034101120')">
+                        <div class="number-item">
                             <span>01034101120</span>
-                            <i class="far fa-copy"></i>
+                            <button class="copy-btn" onclick="copyPaymentNumber('01034101120')">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -528,6 +657,7 @@
                         <i class="fas fa-university"></i>
                         <span>حساب بنكي</span>
                     </div>
+                    <div class="payment-subtext">بيانات الحساب البنكي متاحة:</div>
                     <a href="mobank.pdf" target="_blank" class="bank-link">
                         <span>عرض بيانات الحساب البنكي</span>
                         <i class="fas fa-file-pdf"></i>
@@ -546,7 +676,7 @@
     </div>
 
     <script>
-        // Data & Texts
+        // Static Data
         const nameText = "Mohamed Ibrahim";
         const titleText = "Web Developer & Designer";
         const bioPhrases = [
@@ -559,13 +689,12 @@
         const nameTarget = document.getElementById("name-target");
         const titleTarget = document.getElementById("title-target");
         const bioTarget = document.getElementById("bio-target");
-        const delayedContent = document.getElementById("delayed-content");
+        const contentFlow = document.getElementById("content-flow");
 
-        // Helper delay function
         const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-        // 1. Single Typewriter Effect (Name & Title)
-        async function typeOnce(element, text, speed = 80) {
+        // 4 & 5. Typewriter Effect (Once)
+        async function typeOnce(element, text, speed = 75) {
             element.classList.add("cursor");
             for (let i = 0; i < text.length; i++) {
                 element.textContent += text.charAt(i);
@@ -574,7 +703,7 @@
             element.classList.remove("cursor");
         }
 
-        // 2. Continuous Bio Animation (Type -> Wait -> Delete -> Repeat)
+        // 6. Bio Loop (Type -> Wait -> Delete)
         async function startBioLoop() {
             bioTarget.classList.add("cursor");
             let index = 0;
@@ -582,16 +711,16 @@
             while (true) {
                 let currentPhrase = bioPhrases[index];
 
-                // Type phase
+                // Type
                 for (let i = 0; i < currentPhrase.length; i++) {
                     bioTarget.textContent += currentPhrase.charAt(i);
                     await sleep(45);
                 }
 
-                // Wait phase (2.5 to 3 seconds)
+                // Wait 2.5 - 3s
                 await sleep(2800);
 
-                // Delete phase
+                // Delete
                 for (let i = currentPhrase.length; i > 0; i--) {
                     bioTarget.textContent = currentPhrase.substring(0, i - 1);
                     await sleep(25);
@@ -602,7 +731,7 @@
             }
         }
 
-        // Main Execution Flow
+        // Main Animation Flow
         async function initAnimations() {
             // Step 1: Type Name
             await typeOnce(nameTarget, nameText, 70);
@@ -611,14 +740,14 @@
             titleTarget.classList.add("cursor");
             await typeOnce(titleTarget, titleText, 50);
 
-            // Step 3: Show delayed content (Social & Payment sections)
-            delayedContent.classList.add("visible");
+            // Step 3: Reveal Links & Payments
+            contentFlow.classList.add("visible");
 
-            // Step 4: Start Arabic Bio loop
+            // Step 4: Start Loop
             startBioLoop();
         }
 
-        // Reusable Copy Payment Function with Fallback
+        // 14 & 15. Clipboard Copy with Fallback
         function copyPaymentNumber(number) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(number)
@@ -641,12 +770,12 @@
                 document.execCommand('copy');
                 showToast();
             } catch (err) {
-                console.error('Copy failed', err);
+                console.error('Copy error', err);
             }
             document.body.removeChild(textArea);
         }
 
-        // Toast Trigger
+        // Toast Handler
         let toastTimeout;
         function showToast() {
             const toast = document.getElementById("toast");
@@ -658,9 +787,9 @@
             }, 2200);
         }
 
-        // Start animation sequence after DOM loads
+        // Run On Load
         window.addEventListener("DOMContentLoaded", () => {
-            setTimeout(initAnimations, 300);
+            setTimeout(initAnimations, 200);
         });
     </script>
 </body>
